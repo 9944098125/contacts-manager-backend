@@ -51,4 +51,24 @@ const deleteContact = async (req, res, next) => {
   }
 };
 
-module.exports = { createContact, updateContact, getContacts, deleteContact };
+const getContactById = async (req, res, next) => {
+  const contactId = req.params.id;
+  try {
+    const contact = await Contacts.findById(contactId);
+    if (!contact) {
+      return res.status(404).json({ message: "Contact not found" });
+    }
+    res.json(contact);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = {
+  createContact,
+  updateContact,
+  getContacts,
+  deleteContact,
+  getContactById,
+};
